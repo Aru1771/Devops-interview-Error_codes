@@ -58,7 +58,7 @@ Exit code 127 — Command not found --> The shell couldn't find the command.
       trivy: command not found
       
       Possible causes:
-      1. Trivy isn't installed
+      1. Trivy isn't installed  CMDS: which trivy, command -v trivy, trivy --version
       2. Trivy isn't in PATH
       3. Wrong Jenkins agent
       4. Tool installation failed
