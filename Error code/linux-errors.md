@@ -155,3 +155,213 @@ Example:
     Check JVM Xmx
            ↓
     Determine actual cause
+
+
+🚀 Day 2 — Linux Production Errors
+-----------------------------------
+
+We'll cover:
+
+    1. Disk space full
+    2. Inode exhaustion
+    3. High CPU
+    4. High memory
+    5. Process problems
+    6. Permission/ownership problems
+    7. How to approach a Linux incident
+
+Disk Space Full — Very Common 🚨
+---------------------------------
+
+Imagine your application suddenly stops writing logs.
+You check:
+
+    df -h
+
+and see:
+
+    Filesystem      Size  Used Avail Use%
+    /dev/xvda1       30G   30G     0  100% /
+So applications may fail to:
+
+    - write logs
+    - create temporary files
+    - create new files
+    - write application data
+    - start properly
+
+You might see errors such as:
+
+    No space left on device
+
+First troubleshooting step
+--------------------------
+
+If you see:
+No space left on device
+
+run:
+
+    df -h
+
+df tells you: Which filesystem is full?
+
+Find the large directory
+
+Suppose / is full.
+
+Run:
+
+sudo du -sh /*
+
+You may find:
+
+    2G     /home
+    1G     /opt
+    20G    /var
+    3G     /usr
+
+Now investigate /var.
+
+Then you need to find what is consuming the space.
+
+
+Now investigate /var.
+
+    sudo du -sh /var/*
+
+Maybe:
+
+    18G    /var/log
+    1G     /var/lib
+
+Now you know:
+
+    /var/log → 18G
+
+Then investigate further:
+
+    sudo du -sh /var/log/*
+
+You might discover:
+
+    15G    /var/log/application.log
+    2G     /var/log/messages
+    1G     /var/log/secure
+
+Inode exhaustion
+--------------------  
+
+df -i
+   ↓
+How many FILE ENTRIES/inodes are used?
+
+Even if those files don't consume much total storage, they consume inodes.
+
+Why?
+
+You may have millions of tiny files.
+
+
+High CPU:
+---------
+
+Now imagine users report:
+
+    "Application is very slow."
+
+use : top
+What do you do?
+
+    Don't immediately restart the server.
+
+    Infinite loop
+    High traffic
+    Expensive database queries
+    Excessive garbage collection
+    Thread problems
+    Application bug
+    Large batch processing
+
+High Memory:
+------------
+
+run: free -h and run: top to find which process is useing
+
+
+You might find:
+
+    java    5.8G
+
+Then investigate the application.
+
+For Java:
+    
+    -Xms
+    -Xmx
+    heap
+    GC
+    threads
+    metaspace
+    off-heap/native memo
+
+Process problems:
+-----------------
+
+Check:
+
+    ps -ef | grep java
+
+or:
+
+    systemctl status myapp
+
+You might see:
+
+    Active: failed
+
+Then:
+
+    journalctl -u myapp
+
+This can show why the service failed.
+
+Possible causes:
+
+    Configuration error
+    Port already in use
+    Missing environment variable
+    Missing file
+    Permission issue
+    Dependency unavailable
+    Out of memory
+    Application crash
+    Suppose your application isn't running.
+
+
+🧠 Production troubleshooting flow
+------------------------------------
+
+For Linux incidents, remember this basic flow:
+
+    User reports application problem
+                ↓
+    Check server health
+                ↓
+    CPU
+    Memory
+    Disk
+    Network
+    Processes
+                ↓
+    Identify abnormal resource
+                ↓
+    Find process/application
+                ↓
+    Check logs
+                ↓
+    Find root cause
+                ↓
+    Fix
+                ↓
+    Prevent recurrence
