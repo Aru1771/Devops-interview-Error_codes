@@ -365,3 +365,72 @@ For Linux incidents, remember this basic flow:
     Fix
                 ↓
     Prevent recurrence
+
+
+Part 1 — High CPU troubleshooting
+----------------------------------
+
+1. Understand the production problem
+
+Imagine you receive an alert from monitoring:
+Production application is responding slowly. CPU utilization is high on the EC2 instance.
+
+Your first responsibility is not to restart the server. First, collect evidence.
+
+2. Learn these commands
+
+Command	What it tells you
+uptime:  	                  Load average for 1, 5, and 15 minutes
+nproc:                        Number of available processing units
+top:                          Live CPU, memory, and process usage
+ps aux --sort=-%cpu \| head	: Processes using the most CPU
+free -h: 	                  Memory and swap usage
+
+For example, run:
+
+    uptime
+    nproc
+    top
+    ps aux --sort=-%cpu | head
+    free -h
+
+Important DevOps concept:
+
+    - CPU utilization tells you how busy the CPUs are.
+    - Load average represents runnable tasks and tasks waiting in certain uninterruptible states; it is not the same as CPU utilization.
+    - Load average must be interpreted relative to the number of CPU cores and the workload.
+
+if load is showing high:
+
+$ uptime
+
+    load average: 8.50, 7.90, 6.80
+
+$ nproc
+
+    4 --my cpu core count is only 4.
+
+at thet time i foung java is utilizing more memory 
+
+with the help of top CMD:
+
+    PID    USER     %CPU   COMMAND
+    2456   appuser  390.0  java ------> utilizing high
+    1820   root      15.0  nginx
+    1100   root       2.0  systemd
+
+why it is using 390 % ?
+
+    means java is using all 4 cpu cores nearly. 
+
+Important: A single Java process can have many threads. Multiple threads can execute simultaneously on different CPU cores. The process's CPU percentage can therefore exceed 100%.
+
+Your next step is to investigate that process:
+
+    ps -fp 2456 --> shows details about the process.
+    top -p 2456 --> monitors that specific process.
+
+
+In production, don't assume Java itself is the root cause. It might be handling legitimate traffic, running inefficient code, or stuck in a loop.
+
+
