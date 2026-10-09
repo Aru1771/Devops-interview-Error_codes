@@ -64,4 +64,36 @@
         • Step 5: Delivery — The CNI network fabric routes the rewritten packet across the cluster network directly to the destination Pod.
         
         
+7. Your production application uses AWS Secrets Manager for database credentials.The database password was rotated successfully, but now the application is failing with authentication errors. Why is this happening and how would you troubleshoot it?
+
+       I would not immediately change the database password again. Instead, I’d troubleshoot step by step:
+       Check application logs
+
+        1. Look for errors like: Authentication failed, Invalid username/password, Access denied, Connection refused.
+        
+        2. Check the secret in Secrets Manager
+        
+        Verify the new password is stored correctly.
+        
+        Confirm the application is reading the correct secret and version.
+
+        3. Check IAM permissions
+
+        Ensure the application’s IAM role has secretsmanager:GetSecretValue.
+        
+        If the secret is encrypted with KMS, verify the role has the required KMS permissions.
+
+       4. Check how the application loads the secret
+
+       Some apps only read the secret at startup.
+        
+       Even though Secrets Manager has the new password, the running app may still be using the old password.
+
+       5. Check deployment/restart strategy
+
+        If the app doesn’t refresh secrets dynamically, you may need to restart or redeploy workloads so they load the new credentials.
+        
+        Do this in a controlled way, not blindly restarting everything.
+
+   
            
