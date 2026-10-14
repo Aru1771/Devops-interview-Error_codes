@@ -107,7 +107,11 @@
         4. Best Practice
            Design your application to be stateless wherever possible. This makes scaling and replacing instances easier.
 
-         “After enabling Auto Scaling, users may get logged out because the application stores sessions locally on individual EC2 instances. When the load balancer routes a request to another instance, that instance cannot find the existing session. As a quick workaround, we can enable sticky sessions. For a more scalable solution, we can use a shared session store such as Amazon ElastiCache, or design the application to be stateless.”
+         “After enabling Auto Scaling, users may get logged out because the application stores sessions locally on individual EC2 instances. 
+         When the load balancer routes a request to another instance,
+         that instance cannot find the existing session. As a quick workaround, 
+         we can enable sticky sessions. For a more scalable solution,
+         we can use a shared session store such as Amazon ElastiCache, or design the application to be stateless.”
 
  
                 Imagine you have an AWS application running on one EC2 instance.
