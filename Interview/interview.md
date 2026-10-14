@@ -96,4 +96,37 @@
         Do this in a controlled way, not blindly restarting everything.
 
    
-           
+ Why do users get logged out randomly after enabling Auto Scaling?
+
+        1. Root Cause
+           If an application stores user sessions locally on an EC2 instance, requests routed to another instance may not find the existing session.
+        2. Quick Fix
+           Configure sticky sessions if supported by your application and load balancer. However, this isn't always the best long-term solution.
+        3. Scalable Solution
+           Use a shared session store, such as Amazon ElastiCache for Valkey or Redis OSS, where appropriate. Multiple application instances can then access the same session data.
+        4. Best Practice
+           Design your application to be stateless wherever possible. This makes scaling and replacing instances easier.
+
+         “After enabling Auto Scaling, users may get logged out because the application stores sessions locally on individual EC2 instances. When the load balancer routes a request to another instance, that instance cannot find the existing session. As a quick workaround, we can enable sticky sessions. For a more scalable solution, we can use a shared session store such as Amazon ElastiCache, or design the application to be stateless.”
+
+ 
+                Imagine you have an AWS application running on one EC2 instance.
+                -------------------------------------------------------------------
+                User logs in
+                EC2 Instance A stores the session locally
+                
+                Auto Scaling adds another instance
+                EC2 Instance B
+                
+                Load balancer sends the next request to B
+                B cannot find the session stored on A, so the user may be logged out.
+
+
+
+                Solution 1: Sticky sessions
+                The load balancer tries to send the same user's requests to the same EC2 instance.
+                Limitation: If that instance fails or is replaced, the session may still be lost.
+                
+                Solution 2: Shared session store
+                Store session data in a shared location such as Amazon ElastiCache for Valkey or Redis OSS, provided your application supports it.
+                Now both EC2 A and EC2 B can access the same session data.
