@@ -39,7 +39,9 @@ Command 3 — cat /etc/resolv.conf
     - Shows the configured DNS resolver information.
     - Helps you check which DNS servers the machine is configured to use.
 
-sudo ss -lntp
-sudo ss -lntp | grep ':8080'
+Command 4: you could use to test connectivity to TCP port 8080.
+
+    sudo ss -lntp
+    sudo ss -lntp | grep ':8080'
 
    
