@@ -134,3 +134,32 @@
                 Solution 2: Shared session store
                 Store session data in a shared location such as Amazon ElastiCache for Valkey or Redis OSS, provided your application supports it.
                 Now both EC2 A and EC2 B can access the same session data.
+
+
+ Your deployment was successful, but 2 minutes later your production application started returning 500 errors. As a DevOps Engineer, what would you check first, and why?
+
+        1️⃣ Check application logs
+        
+        Look for exceptions, missing environment variables, or database connection failures right after deployment.
+        
+        2️⃣ Compare releases
+        
+        See what changed between the old and new version (code, config, dependencies, database schema).
+        
+        3️⃣ Check health metrics
+        
+        Review error rates, latency, CPU/memory usage, and dependency health.
+        
+        4️⃣ Verify database compatibility
+        
+        Ensure the new app version matches the production database schema.
+        
+        5️⃣ Roll back if needed
+        
+        If users are impacted and the old version was stable, roll back while continuing root cause analysis.
+        
+        🔥 Interview Tip:  
+        A successful CI/CD pipeline only proves the pipeline stages passed. It does not guarantee the app will run correctly in production.
+
+
+        
