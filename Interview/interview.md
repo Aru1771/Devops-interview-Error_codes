@@ -174,4 +174,5 @@ Jenkins installtion, backup & scalling ?
         6. After the agent has been idle for the configured period, Jenkins can terminate it.
 
         “I configure separate Jenkins agent templates with labels such as java, nodejs and python. Each template uses an AMI or image with the required software installed. In the Jenkinsfile, I specify the required label, so Jenkins schedules the job on a compatible agent. If the matching agents are busy and the queue grows, the EC2 plugin provisions additional agents for that label. When demand decreases, idle agents are terminated according to the configured idle timeout.”
-                
+
+       Refer this Video: https://www.youtube.com/watch?v=y4-jxiw4CkA
