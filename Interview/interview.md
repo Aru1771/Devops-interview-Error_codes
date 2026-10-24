@@ -162,4 +162,16 @@
         A successful CI/CD pipeline only proves the pipeline stages passed. It does not guarantee the app will run correctly in production.
 
 
-        
+Jenkins installtion, backup & scalling ?
+
+
+        The flow is:
+        1. A Java job enters the Jenkins queue and requests the java label.
+        2. Jenkins checks whether an online Java agent has an available executor.
+        3. If no suitable capacity is available, Jenkins requests a new agent from the matching EC2 template.
+        4. The ec2-plugin  launches an instance with the required AMI and software configuration.
+        5. Once the agent connects to Jenkins, the job runs.
+        6. After the agent has been idle for the configured period, Jenkins can terminate it.
+
+        “I configure separate Jenkins agent templates with labels such as java, nodejs and python. Each template uses an AMI or image with the required software installed. In the Jenkinsfile, I specify the required label, so Jenkins schedules the job on a compatible agent. If the matching agents are busy and the queue grows, the EC2 plugin provisions additional agents for that label. When demand decreases, idle agents are terminated according to the configured idle timeout.”
+                
