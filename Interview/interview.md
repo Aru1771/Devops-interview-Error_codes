@@ -180,7 +180,7 @@ Jenkins installtion, backup & scalling ?
 
 User is getting 504 Gateway error ?
 
-        <img width="790" height="497" alt="image" src="https://github.com/user-attachments/assets/8e4063d3-358a-4dd2-a9c2-3070daee1323" />
+<img width="790" height="497" alt="image" src="https://github.com/user-attachments/assets/8e4063d3-358a-4dd2-a9c2-3070daee1323" />
 
 
         # Check application listening port
