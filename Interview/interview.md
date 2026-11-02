@@ -176,3 +176,28 @@ Jenkins installtion, backup & scalling ?
         “I configure separate Jenkins agent templates with labels such as java, nodejs and python. Each template uses an AMI or image with the required software installed. In the Jenkinsfile, I specify the required label, so Jenkins schedules the job on a compatible agent. If the matching agents are busy and the queue grows, the EC2 plugin provisions additional agents for that label. When demand decreases, idle agents are terminated according to the configured idle timeout.”
 
        Refer this Video: https://www.youtube.com/watch?v=y4-jxiw4CkA
+
+
+User is getting 504 Gateway error ?
+
+        <img width="790" height="497" alt="image" src="https://github.com/user-attachments/assets/8e4063d3-358a-4dd2-a9c2-3070daee1323" />
+
+
+        # Check application listening port
+        sudo ss -lntp | grep 8080
+        
+        # Check backend health
+        curl -v http://localhost:8080/health
+        
+        # Check application logs
+        sudo journalctl -u myapp -f
+        
+        # Test backend from another EC2
+        nc -zv 10.0.2.20 8080
+
+        Also check ALB CloudWatch metrics:
+        
+                - TargetResponseTime
+                - HTTPCode_ELB_504_Count
+                - TargetConnectionErrorCount
+                - HealthyHostCount
