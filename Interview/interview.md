@@ -96,7 +96,7 @@
         Do this in a controlled way, not blindly restarting everything.
 
    
- Why do users get logged out randomly after enabling Auto Scaling?
+8 . Why do users get logged out randomly after enabling Auto Scaling?
 
         1. Root Cause
            If an application stores user sessions locally on an EC2 instance, requests routed to another instance may not find the existing session.
@@ -136,7 +136,7 @@
                 Now both EC2 A and EC2 B can access the same session data.
 
 
- Your deployment was successful, but 2 minutes later your production application started returning 500 errors. As a DevOps Engineer, what would you check first, and why?
+9.  Your deployment was successful, but 2 minutes later your production application started returning 500 errors. As a DevOps Engineer, what would you check first, and why?
 
         1️⃣ Check application logs
         
@@ -162,7 +162,7 @@
         A successful CI/CD pipeline only proves the pipeline stages passed. It does not guarantee the app will run correctly in production.
 
 
-Jenkins installtion, backup & scalling ?
+10. Jenkins installtion, backup & scalling ?
 
 
         The flow is:
@@ -178,7 +178,7 @@ Jenkins installtion, backup & scalling ?
        Refer this Video: https://www.youtube.com/watch?v=y4-jxiw4CkA
 
 
-User is getting 504 Gateway error ?
+11 . User is getting 504 Gateway error ?
 
 <img width="790" height="497" alt="image" src="https://github.com/user-attachments/assets/8e4063d3-358a-4dd2-a9c2-3070daee1323" />
 
@@ -201,3 +201,17 @@ User is getting 504 Gateway error ?
                 - HTTPCode_ELB_504_Count
                 - TargetConnectionErrorCount
                 - HealthyHostCount
+
+
+12. what is terrafrom state file and what happen if it is deleted and how we can retrive it ?
+
+ * Terraform state file (terraform.tfstate) is a JSON file that maintains the relationship between your Terraform configuration and the actual infrastructure created in AWS.
+
+<img width="945" height="573" alt="image" src="https://github.com/user-attachments/assets/08ece891-2725-4562-9893-4cbac3bc0c17" />
+
+* if state file was lost The biggest problem: Terraform no longer knows that those AWS resources belong to its configuration.
+
+* There are three main recovery methods.
+  1. Method 1: Restore from S3 versioning (best production approach)
+  2. Method 2: Recover from a local backup by **cp terraform.tfstate.backup terraform.tfstate**
+  3. Method 3: Rebuild the state using Terraform import
