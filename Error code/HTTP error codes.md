@@ -219,3 +219,7 @@ Remember: 504 = Backend didn't respond in time.
 
 
 One important distinction: 502, 503 and 504 do not always mean the application itself is faulty. The load balancer, proxy, networking layer or an upstream dependency may be responsible.
+
+
+<img width="750" height="297" alt="image" src="https://github.com/user-attachments/assets/f0797c9c-1bed-4d6d-adfe-4826178bfd41" />
+
