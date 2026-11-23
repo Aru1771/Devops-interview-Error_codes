@@ -215,3 +215,15 @@
   1. Method 1: Restore from S3 versioning (best production approach)
   2. Method 2: Recover from a local backup by **cp terraform.tfstate.backup terraform.tfstate**
   3. Method 3: Rebuild the state using Terraform import
+
+
+
+13. How can you Verify the All IAM users Status in one Account ?
+
+* we can do it by using Credential Report in IAM service. so we will get all the user details in a single .csv file there we can verify user_Name, User_Cretion Time, Password Enable, last password use, last password change , MFA, ACCESS KEYS enable etc details we can see in that report.
+
+14. How we can migrate 5tb of s3 bucket data from one account to another account ?
+
+*  we have to use Aws data sync. by using this we can migrate it but the challange is all data was migrated with missing any thing.
+*  to ensure the quality migration we have to use Aws s3 inventory service which will generate all the objects in the .csv file.
+*  then we have to load thet inventory in the dynamoDB to comapre the source and destination s3 inventory files for missing data. 
